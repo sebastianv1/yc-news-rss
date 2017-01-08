@@ -5,7 +5,7 @@ var feed = require('feed-read');
 var RSS = require('rss');
 
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 var YC_URL = "https://news.ycombinator.com/rss";
 
 app.get('/', function(req, res) {
