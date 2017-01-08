@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
 
-var feed = require('feed-read');
+var feed_reader = require('feed-read');
+//var feed = require('feed');
+
 var RSS = require('rss');
 
 
@@ -13,7 +15,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/rss', function(req, res) {
-	feed(YC_URL, function(err, articles) {
+	feed_reader(YC_URL, function(err, articles) {
 		if (err) {
 			res.send(err);
 		} else {
@@ -28,6 +30,8 @@ app.get('/rss', function(req, res) {
 				});
 			}
 			var xml = feed.xml();
+			//feed.render('rss-2.0');
+			res.set('Content-Type', 'application/rss+xml');
 			res.send(xml);
 		}
 	});
