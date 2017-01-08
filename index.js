@@ -16,17 +16,12 @@ app.get('/rss', function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			var json_output = [];
-			for (i in articles) {
-				var new_rss = { 
-					"titleText": articles[i]['title'],
-					"redirectionUrl": articles[i]['feed']['link']
-				}
-				json_output.push(new_rss);
-			}
-			console.log(json_output);
 			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify(json_output));
+			var top_story = {
+				"titleText": articles[0]['title'],
+				"redirectionUrl": articles[0]['feed']['link']
+			}
+			res.send(JSON.stringify(top_story));
 		}
 	});
 });
