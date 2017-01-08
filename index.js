@@ -2,9 +2,6 @@ var express = require('express');
 var app = express();
 
 var feed_reader = require('feed-read');
-//var feed = require('feed');
-
-var RSS = require('rss');
 
 
 var PORT = process.env.PORT || 3000;
@@ -19,20 +16,17 @@ app.get('/rss', function(req, res) {
 		if (err) {
 			res.send(err);
 		} else {
-			var feed = new RSS();
+			var json_output = [];
 			for (i in articles) {
-				c = articles[i];
-				feed.item(
-				{
-					title: c['title'],
-					feed_url: c['feed']['link'],
-					site_url: c['feed']['source']
-				});
+				var new_rss = { 
+					"titleText": articles[i]['title'],
+					"redirectionUrl": articles[i]['feed']['link']
+				}
+				json_output.push(new_rss);
 			}
-			var xml = feed.xml();
-			//feed.render('rss-2.0');
-			res.set('Content-Type', 'application/rss+xml');
-			res.send(xml);
+			console.log(json_output);
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(json_output));
 		}
 	});
 });
